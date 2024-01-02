@@ -14,3 +14,9 @@ class Button:
         pygame.draw.rect(screen, self.color, [self.x, self.y, self.width, self.height])
         message = font.render(self.text, True, (255, 255, 255))
         screen.blit(message, (self.x + self.width / 8, self.y + self.height / 4))
+
+    def mouse_is_on_button(self, mouse_position):
+        if (self.x <= mouse_position[0] <= self.x + self.width
+                and self.y <= mouse_position[1] <= self.y + self.height):
+            return True
+        return False

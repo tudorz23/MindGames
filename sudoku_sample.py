@@ -9,6 +9,7 @@ class SudokuSample:
         self.riddle = numpy.zeros((9, 9), int)
         self.solution = numpy.zeros((9, 9), int)
         self.unmodifiable = numpy.zeros((9, 9), bool)
+        self.is_hint = numpy.zeros((9, 9), bool)
 
     def load_sudoku(self, level):
         level_list = database.input_data[level]
@@ -22,6 +23,13 @@ class SudokuSample:
                 if self.riddle[i][j] != 0:
                     self.unmodifiable[i][j] = True
 
+        level_solution_list = database.solution[level]
+        solution_source = level_solution_list[index]
+
+        for i in range(0, constants.ROWS_CNT):
+            for j in range(0, constants.COLUMNS_CNT):
+                self.solution[i][j] = solution_source[i][j]
+
     def print_sudoku(self):
         for i in range(0, constants.ROWS_CNT):
             for j in range(0, constants.COLUMNS_CNT):
@@ -32,6 +40,8 @@ class SudokuSample:
         return not self.unmodifiable[row][column]
 
     def get_color(self, row, column):
+        if self.is_hint[row][column]:
+            return 0, 200, 125
         if self.unmodifiable[row][column]:
             return 0, 0, 0
 
@@ -83,3 +93,42 @@ class SudokuSample:
                 if not self.check_user_input_validity(i, j):
                     return False
         return True
+
+    def generate_hint(self):
+        list = []
+        for i in range(0, constants.ROWS_CNT):
+            for j in range(0, constants.COLUMNS_CNT):
+                if not self.unmodifiable[i][j] and self.riddle[i][j] == 0:
+                    list.append((i, j))
+        if len(list) == 0:
+            return
+
+        index = random.randint(0, len(list) - 1)
+        (x, y) = list[index]
+        self.riddle[x][y] = self.solution[x][y]
+        self.unmodifiable[x][y] = True
+        self.is_hint[x][y] = True
+
+    def select_next_free_square(self, selected_row, selected_column, is_selected):
+        x = 0
+        y = -1
+        if is_selected:
+            x = selected_row
+            y = selected_column
+
+        y += 1
+        if y == constants.COLUMNS_CNT:
+            y = 0
+            x += 1
+            if x == constants.ROWS_CNT:
+                x = 0
+
+        while True:
+            if self.is_square_modifiable(x, y):
+                return x, y
+            y += 1
+            if y == constants.COLUMNS_CNT:
+                y = 0
+                x += 1
+                if x == constants.ROWS_CNT:
+                    x = 0

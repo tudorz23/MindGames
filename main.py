@@ -34,7 +34,23 @@ messageX = constants.WIN_MESSAGE_X
 messageY = constants.WIN_MESSAGE_Y
 win_message_font = pygame.font.Font("freesansbold.ttf", 20)
 win_message = win_message_font.render("Congratulations! You can now access the next level:",
-                              True, (255, 255, 255))
+                                      True, (255, 255, 255))
+
+
+# Draw selection borders.
+def draw_selection(row, column):
+    global screen
+
+    x = constants.BACKGROUND_START_X + column * constants.SQUARE_LEN
+    y = constants.BACKGROUND_START_Y + row * constants.SQUARE_LEN
+    pygame.draw.line(screen, (0, 0, 255), (x + 1, y + 1),
+                     (x + constants.SQUARE_LEN - 2, y + 1), 2)
+    pygame.draw.line(screen, (0, 0, 255), (x + 1, y + 1),
+                     (x + 1, y + constants.SQUARE_LEN - 2), 2)
+    pygame.draw.line(screen, (0, 0, 255), (x + constants.SQUARE_LEN - 2, y + 1),
+                     (x + constants.SQUARE_LEN - 2, y + constants.SQUARE_LEN - 2), 2)
+    pygame.draw.line(screen, (0, 0, 255), (x + 1, y + constants.SQUARE_LEN - 2),
+                     (x + constants.SQUARE_LEN - 2, y + constants.SQUARE_LEN - 2), 2)
 
 
 def show_sudoku(sudoku_input):
@@ -60,10 +76,16 @@ def show_sudoku(sudoku_input):
 
 # Returns the coordinates of the square clicked by the mouse.
 def get_square(mouse_position):
+    global sudoku
+    if not (constants.BACKGROUND_START_X <= mouse_position[0] <= constants.BACKGROUND_START_X + constants.BACKGROUND_DIMENSION):
+        return sudoku.select_next_free_square(0, -1, False)
+    if not (constants.BACKGROUND_START_Y <= mouse_position[1] <= constants.BACKGROUND_START_Y + constants.BACKGROUND_DIMENSION):
+        return sudoku.select_next_free_square(0, -1, False)
+
     x = int((mouse_position[1] - constants.BACKGROUND_START_X) / constants.SQUARE_LEN)
     y = int((mouse_position[0] - constants.BACKGROUND_START_Y) / constants.SQUARE_LEN)
 
-    return (x, y)
+    return x, y
 
 
 def get_pressed_key(event):
@@ -105,9 +127,13 @@ selected_column = 0
 
 # Button for going to next level.
 next_level_button = button.Button(350, 300, 120, 50, (100, 0, 100), "Next")
+
+# Button for exit.
 exit_button = button.Button(350, 400, 120, 50, (100, 0, 100), "Exit")
 button_font = pygame.font.Font("freesansbold.ttf", 40)
 
+# Hint button.
+hint_button = button.Button(constants.BACKGROUND_START_X, 700, 120, 50, (0, 0, 255), "Hint")
 
 while running:
     while has_won:
@@ -121,8 +147,7 @@ while running:
             if event.type == pygame.MOUSEBUTTONUP:
                 mouse_position = pygame.mouse.get_pos()
 
-                if (next_level_button.x <= mouse_position[0] <= next_level_button.x + next_level_button.width and
-                        next_level_button.y <= mouse_position[1] <= next_level_button.y + next_level_button.height):
+                if next_level_button.mouse_is_on_button(mouse_position):
                     has_won = False
                     level += 1
                     if level == constants.MAX_LEVEL:
@@ -131,8 +156,7 @@ while running:
                     sudoku.load_sudoku(level)
                     screen.fill((0, 0, 0))
 
-                if (exit_button.x <= mouse_position[0] <= exit_button.x + exit_button.width and
-                        exit_button.y <= mouse_position[1] <= exit_button.y + exit_button.height):
+                if exit_button.mouse_is_on_button(mouse_position):
                     running = False
                     has_won = False
 
@@ -141,6 +165,7 @@ while running:
 
     screen.blit(background, (constants.BACKGROUND_START_X, constants.BACKGROUND_START_Y))
     show_sudoku(sudoku)
+    hint_button.draw(screen, button_font)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -148,18 +173,30 @@ while running:
 
         if event.type == pygame.MOUSEBUTTONUP:
             mouse_position = pygame.mouse.get_pos()
-            (selected_row, selected_column) = get_square(mouse_position)
-
-            if 0 <= selected_row < constants.ROWS_CNT and 0 <= selected_column < constants.COLUMNS_CNT:
-                is_square_selected = True
+            if hint_button.mouse_is_on_button(mouse_position):
+                sudoku.generate_hint()
+            else:
+                (selected_row, selected_column) = get_square(mouse_position)
+                if 0 <= selected_row < constants.ROWS_CNT and 0 <= selected_column < constants.COLUMNS_CNT:
+                    is_square_selected = True
 
         if (event.type == pygame.KEYDOWN and is_square_selected
-                and sudoku.is_square_modifiable(selected_row, selected_column)):
+                and sudoku.is_square_modifiable(selected_row, selected_column)
+                and event.key != pygame.K_TAB):
             pressed_key = get_pressed_key(event)
-            sudoku.riddle[selected_row][selected_column] = pressed_key
+            if 1 <= pressed_key <= 9:
+                sudoku.riddle[selected_row][selected_column] = pressed_key
             is_square_selected = False
-            # has_won = True
+
             if sudoku.check_user_input_validity(selected_row, selected_column):
                 has_won = sudoku.check_winning()
 
+        # Navigate with TAB.
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
+            (selected_row, selected_column) = sudoku.select_next_free_square(selected_row,
+                                                                             selected_column, is_square_selected)
+            is_square_selected = True
+
+    if sudoku.is_square_modifiable(selected_row, selected_column):
+        draw_selection(selected_row, selected_column)
     pygame.display.update()
