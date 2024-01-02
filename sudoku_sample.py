@@ -1,5 +1,5 @@
 import constants
-import input_data
+import database
 import numpy
 
 
@@ -13,7 +13,7 @@ class SudokuSample:
     def load_sudoku(self):
         for i in range(0, constants.ROWS_CNT):
             for j in range(0, constants.COLUMNS_CNT):
-                self.riddle[i][j] = input_data.input0[i][j]
+                self.riddle[i][j] = database.input0[i][j]
                 if self.riddle[i][j] != 0:
                     self.unmodifiable[i][j] = True
 
@@ -65,4 +65,16 @@ class SudokuSample:
                         and self.riddle[curr_square_row][curr_square_column] == value):
                     return False
 
+        return True
+
+    def check_winning(self):
+        for i in range(0, constants.ROWS_CNT):
+            for j in range(0, constants.COLUMNS_CNT):
+                if self.riddle[i][j] == 0:
+                    return False
+
+        for i in range(0, constants.ROWS_CNT):
+            for j in range(0, constants.COLUMNS_CNT):
+                if not self.check_user_input_validity(i, j):
+                    return False
         return True
