@@ -1,6 +1,4 @@
 import pygame
-
-import input_data
 import sudoku_sample
 import constants
 
@@ -13,19 +11,24 @@ background = pygame.image.load('grid.jpg')
 
 pygame.display.update()
 
+# Initialize the sudoku grid.
 sudoku = sudoku_sample.SudokuSample(0)
 sudoku.load_sudoku()
-sudoku.print_sudoku()
+# sudoku.print_sudoku()
 
+
+# Upper left digit.
 digitX = constants.BACKGROUND_START_X + constants.DIGIT_OFFSET
 digitY = constants.BACKGROUND_START_Y + constants.DIGIT_OFFSET
 
+# Digit font.
 font = pygame.font.Font("freesansbold.ttf", 30)
 
 
 def show_sudoku(sudoku_input):
     global digitX
     global digitY
+    global sudoku
 
     digitX = constants.BACKGROUND_START_X + constants.DIGIT_OFFSET
     digitY = constants.BACKGROUND_START_Y + constants.DIGIT_OFFSET
@@ -33,7 +36,8 @@ def show_sudoku(sudoku_input):
     for i in range(0, constants.ROWS_CNT):
         for j in range(0, constants.COLUMNS_CNT):
             if sudoku_input.riddle[i][j] != 0:
-                digit = font.render(str(sudoku_input.riddle[i][j]), True, (0, 0, 0))
+                color = sudoku.get_color(i, j)
+                digit = font.render(str(sudoku_input.riddle[i][j]), True, color)
                 screen.blit(digit, (digitX, digitY))
 
             digitX = digitX + constants.SQUARE_LEN
@@ -42,15 +46,69 @@ def show_sudoku(sudoku_input):
         digitY += constants.SQUARE_LEN
 
 
+# Returns the coordinates of the square clicked by the mouse.
+def get_square(mouse_position):
+    x = int((mouse_position[1] - constants.BACKGROUND_START_X) / constants.SQUARE_LEN)
+    y = int((mouse_position[0] - constants.BACKGROUND_START_Y) / constants.SQUARE_LEN)
+
+    return (x, y)
+
+
+def get_pressed_key(event):
+    pressed_key = 0
+
+    match event.key:
+        case pygame.K_1:
+            pressed_key = 1
+        case pygame.K_2:
+            pressed_key = 2
+        case pygame.K_3:
+            pressed_key = 3
+        case pygame.K_4:
+            pressed_key = 4
+        case pygame.K_5:
+            pressed_key = 5
+        case pygame.K_6:
+            pressed_key = 6
+        case pygame.K_7:
+            pressed_key = 7
+        case pygame.K_8:
+            pressed_key = 8
+        case pygame.K_9:
+            pressed_key = 9
+
+    return pressed_key
+
+
 # Game Loop
 running = True
+is_square_selected = False
+
+pressed_key = 0
+
+# Selected square coordinates in sudoku matrix.
+selected_row = 0
+selected_column = 0
+
 while running:
     screen.blit(background, (constants.BACKGROUND_START_X, constants.BACKGROUND_START_Y))
+    show_sudoku(sudoku)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    show_sudoku(sudoku)
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouse_position = pygame.mouse.get_pos()
+            (selected_row, selected_column) = get_square(mouse_position)
+
+            if 0 <= selected_row < constants.ROWS_CNT and 0 <= selected_column < constants.COLUMNS_CNT:
+                is_square_selected = True
+
+        if (event.type == pygame.KEYDOWN and is_square_selected
+                and sudoku.is_square_modifiable(selected_row, selected_column)):
+            pressed_key = get_pressed_key(event)
+            sudoku.riddle[selected_row][selected_column] = pressed_key
+            is_square_selected = False
 
     pygame.display.update()
