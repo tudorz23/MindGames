@@ -27,7 +27,42 @@ class SudokuSample:
         return not self.unmodifiable[row][column]
 
     def get_color(self, row, column):
-        if not self.unmodifiable[row][column]:
+        if self.unmodifiable[row][column]:
+            return 0, 0, 0
+
+        if self.check_user_input_validity(row, column):
             return 0, 0, 255
 
-        return 0, 0, 0
+        return 255, 0, 0
+
+    # Checks if the digit introduced by the user collides with an existing
+    # digit from the sudoku.
+    def check_user_input_validity(self, row, column):
+        value = self.riddle[row][column]
+
+        # Check if there are collisions on the row.
+        for j in range(0, constants.COLUMNS_CNT):
+            if column == j:
+                continue
+            if value == self.riddle[row][j]:
+                return False
+
+        # Check if there are collisions on the column.
+        for i in range(0, constants.ROWS_CNT):
+            if row == i:
+                continue
+            if value == self.riddle[i][column]:
+                return False
+
+        # Check if there are collisions in the 3x3 square.
+        big_square_row = int(row / 3)
+        big_square_column = int(column / 3)
+        for i in range(0, constants.BIG_SQUARE_DIMENSION):
+            curr_square_row = 3 * big_square_row + i
+            for j in range(0, constants.BIG_SQUARE_DIMENSION):
+                curr_square_column = 3 * big_square_column + j
+                if (curr_square_row != row and curr_square_column != column
+                        and self.riddle[curr_square_row][curr_square_column] == value):
+                    return False
+
+        return True

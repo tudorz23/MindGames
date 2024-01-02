@@ -14,7 +14,6 @@ pygame.display.update()
 # Initialize the sudoku grid.
 sudoku = sudoku_sample.SudokuSample(0)
 sudoku.load_sudoku()
-# sudoku.print_sudoku()
 
 
 # Upper left digit.
