@@ -11,8 +11,8 @@ class SudokuSample:
         self.unmodifiable = numpy.zeros((9, 9), bool)
         self.is_hint = numpy.zeros((9, 9), bool)
 
-    def load_sudoku(self, level):
-        level_list = database.input_data[level]
+    def load_sudoku(self, level_nr):
+        level_list = database.input_data[level_nr]
         index = random.randint(0, len(level_list) - 1)
 
         grid_source = level_list[index]
@@ -23,7 +23,7 @@ class SudokuSample:
                 if self.riddle[i][j] != 0:
                     self.unmodifiable[i][j] = True
 
-        level_solution_list = database.solution[level]
+        level_solution_list = database.solution[level_nr]
         solution_source = level_solution_list[index]
 
         for i in range(0, constants.ROWS_CNT):
@@ -94,7 +94,10 @@ class SudokuSample:
                     return False
         return True
 
-    def generate_hint(self):
+    def generate_hint(self, level):
+        if level.hint_cnt == 0:
+            return
+
         list = []
         for i in range(0, constants.ROWS_CNT):
             for j in range(0, constants.COLUMNS_CNT):
@@ -108,6 +111,8 @@ class SudokuSample:
         self.riddle[x][y] = self.solution[x][y]
         self.unmodifiable[x][y] = True
         self.is_hint[x][y] = True
+
+        level.hint_cnt -= 1
 
     def select_next_free_square(self, selected_row, selected_column, is_selected):
         x = 0
