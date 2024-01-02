@@ -14,7 +14,6 @@ pygame.display.update()
 # Initialize the sudoku grid.
 sudoku = sudoku_sample.SudokuSample(0)
 sudoku.load_sudoku()
-# sudoku.print_sudoku()
 
 
 # Upper left digit.
@@ -28,16 +27,16 @@ font = pygame.font.Font("freesansbold.ttf", 30)
 def show_sudoku(sudoku_input):
     global digitX
     global digitY
+    global sudoku
 
     digitX = constants.BACKGROUND_START_X + constants.DIGIT_OFFSET
     digitY = constants.BACKGROUND_START_Y + constants.DIGIT_OFFSET
 
     for i in range(0, constants.ROWS_CNT):
         for j in range(0, constants.COLUMNS_CNT):
-            if sudoku_input.riddle[i][j].value != 0:
-                sudoku_input.update_color(i, j)
-                digit = font.render(str(sudoku_input.riddle[i][j].value),
-                                    True, sudoku_input.riddle[i][j].color)
+            if sudoku_input.riddle[i][j] != 0:
+                color = sudoku.get_color(i, j)
+                digit = font.render(str(sudoku_input.riddle[i][j]), True, color)
                 screen.blit(digit, (digitX, digitY))
 
             digitX = digitX + constants.SQUARE_LEN
@@ -106,9 +105,9 @@ while running:
                 is_square_selected = True
 
         if (event.type == pygame.KEYDOWN and is_square_selected
-                and not sudoku.riddle[selected_row][selected_column].unmodifiable_status):
+                and sudoku.is_square_modifiable(selected_row, selected_column)):
             pressed_key = get_pressed_key(event)
-            sudoku.riddle[selected_row][selected_column].value = pressed_key
+            sudoku.riddle[selected_row][selected_column] = pressed_key
             is_square_selected = False
 
     pygame.display.update()

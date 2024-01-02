@@ -1,52 +1,57 @@
 import constants
 import input_data
 import numpy
-import square
 
 
 class SudokuSample:
     def __init__(self, index):
-        self.riddle = numpy.empty((9, 9)).tolist()
+        self.riddle = numpy.zeros((9, 9), int)
         self.solution = numpy.zeros((9, 9), int)
+        self.unmodifiable = numpy.zeros((9, 9), bool)
         self.index = index
 
     def load_sudoku(self):
         for i in range(0, constants.ROWS_CNT):
             for j in range(0, constants.COLUMNS_CNT):
-                self.riddle[i][j] = square.Square(input_data.input0[i][j])
-                if self.riddle[i][j].value != 0:
-                    self.riddle[i][j].unmodifable_status = True
+                self.riddle[i][j] = input_data.input0[i][j]
+                if self.riddle[i][j] != 0:
+                    self.unmodifiable[i][j] = True
 
     def print_sudoku(self):
         for i in range(0, constants.ROWS_CNT):
             for j in range(0, constants.COLUMNS_CNT):
-                print(self.riddle[i][j].value)
+                print(self.riddle[i][j])
             print()
 
-    def update_color(self, row, column):
-        if not self.check_user_input_validity(row, column):
-            self.riddle[row][column].color = (255, 0, 0)
-        else:
-            self.riddle[row][column].color = (0, 0, 255)
+    def is_square_modifiable(self, row, column):
+        return not self.unmodifiable[row][column]
 
+    def get_color(self, row, column):
+        if self.unmodifiable[row][column]:
+            return 0, 0, 0
+
+        if self.check_user_input_validity(row, column):
+            return 0, 0, 255
+
+        return 255, 0, 0
 
     # Checks if the digit introduced by the user collides with an existing
     # digit from the sudoku.
     def check_user_input_validity(self, row, column):
-        value_to_check = self.riddle[row][column].value
+        value = self.riddle[row][column]
 
         # Check if there are collisions on the row.
         for j in range(0, constants.COLUMNS_CNT):
             if column == j:
                 continue
-            if value_to_check == self.riddle[row][j].value:
+            if value == self.riddle[row][j]:
                 return False
 
         # Check if there are collisions on the column.
         for i in range(0, constants.ROWS_CNT):
             if row == i:
                 continue
-            if value_to_check == self.riddle[i][column].value:
+            if value == self.riddle[i][column]:
                 return False
 
         # Check if there are collisions in the 3x3 square.
@@ -57,7 +62,7 @@ class SudokuSample:
             for j in range(0, constants.BIG_SQUARE_DIMENSION):
                 curr_square_column = 3 * big_square_column + j
                 if (curr_square_row != row and curr_square_column != column
-                        and self.riddle[curr_square_row][curr_square_column].value == value_to_check):
+                        and self.riddle[curr_square_row][curr_square_column] == value):
                     return False
 
         return True
