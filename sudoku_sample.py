@@ -1,19 +1,24 @@
 import constants
 import database
 import numpy
+import random
 
 
 class SudokuSample:
-    def __init__(self, index):
+    def __init__(self):
         self.riddle = numpy.zeros((9, 9), int)
         self.solution = numpy.zeros((9, 9), int)
         self.unmodifiable = numpy.zeros((9, 9), bool)
-        self.index = index
 
-    def load_sudoku(self):
+    def load_sudoku(self, level):
+        level_list = database.input_data[level]
+        index = random.randint(0, len(level_list) - 1)
+
+        grid_source = level_list[index]
+
         for i in range(0, constants.ROWS_CNT):
             for j in range(0, constants.COLUMNS_CNT):
-                self.riddle[i][j] = database.input0[i][j]
+                self.riddle[i][j] = grid_source[i][j]
                 if self.riddle[i][j] != 0:
                     self.unmodifiable[i][j] = True
 

@@ -5,16 +5,22 @@ import button
 
 pygame.init()
 
-# Create the screen
+# Title and icon
+pygame.display.set_caption("Sudoku")
+icon = pygame.image.load('sudoku.png')
+pygame.display.set_icon(icon)
+
+# Create the screen.
 screen = pygame.display.set_mode((800, 800))
-
 background = pygame.image.load('grid.jpg')
-
 pygame.display.update()
 
+# Level handler.
+level = 0
+
 # Initialize the sudoku grid.
-sudoku = sudoku_sample.SudokuSample(0)
-sudoku.load_sudoku()
+sudoku = sudoku_sample.SudokuSample()
+sudoku.load_sudoku(level)
 
 # Upper left digit.
 digitX = constants.BACKGROUND_START_X + constants.DIGIT_OFFSET
@@ -102,6 +108,7 @@ next_level_button = button.Button(350, 300, 120, 50, (100, 0, 100), "Next")
 exit_button = button.Button(350, 400, 120, 50, (100, 0, 100), "Exit")
 button_font = pygame.font.Font("freesansbold.ttf", 40)
 
+
 while running:
     while has_won:
         screen.fill((0, 0, 0))
@@ -117,8 +124,11 @@ while running:
                 if (next_level_button.x <= mouse_position[0] <= next_level_button.x + next_level_button.width and
                         next_level_button.y <= mouse_position[1] <= next_level_button.y + next_level_button.height):
                     has_won = False
-                    sudoku = sudoku_sample.SudokuSample(0)
-                    sudoku.load_sudoku()
+                    level += 1
+                    if level == constants.MAX_LEVEL:
+                        level = constants.MAX_LEVEL - 1
+                    sudoku = sudoku_sample.SudokuSample()
+                    sudoku.load_sudoku(level)
                     screen.fill((0, 0, 0))
 
                 if (exit_button.x <= mouse_position[0] <= exit_button.x + exit_button.width and
