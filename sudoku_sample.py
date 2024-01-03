@@ -137,3 +137,28 @@ class SudokuSample:
                 x += 1
                 if x == constants.ROWS_CNT:
                     x = 0
+
+    def select_prev_free_square(self, selected_row, selected_column, is_selected):
+        x = constants.ROWS_CNT - 1
+        y = constants.COLUMNS_CNT
+
+        if is_selected:
+            x = selected_row
+            y = selected_column
+
+        y -= 1
+        if y == -1:
+            y = constants.COLUMNS_CNT - 1
+            x -= 1
+            if x == -1:
+                x = constants.ROWS_CNT - 1
+
+        while True:
+            if self.is_square_modifiable(x, y):
+                return x, y
+            y -= 1
+            if y == -1:
+                y = constants.COLUMNS_CNT - 1
+                x -= 1
+                if x == -1:
+                    x = constants.ROWS_CNT - 1
