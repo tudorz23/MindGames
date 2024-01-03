@@ -45,7 +45,7 @@ hint_font = pygame.font.Font("freesansbold.ttf", 40)
 
 def display_hint_number(value):
     global screen
-    hint_message = hint_font.render("Hints left: " + str(value), True, (127, 0, 255))
+    hint_message = hint_font.render("Hints left: " + str(value), True, constants.PURPLE)
     pygame.draw.rect(screen, (0, 0, 0), [hint_numberX, hint_numberY, 100, 50])
     screen.blit(hint_message, (hint_numberX, hint_numberY))
 
@@ -139,15 +139,15 @@ selected_row = 0
 selected_column = 0
 
 # Button for going to next level.
-next_level_button = button.Button(350, 300, 120, 50, (100, 0, 100), "Next")
+next_level_button = button.Button(350, 300, 120, 50, constants.PURPLE, "Next")
 
 # Button for exit.
-exit_button = button.Button(350, 400, 120, 50, (100, 0, 100), "Exit")
-button_font = pygame.font.Font("freesansbold.ttf", 40)
+exit_button = button.Button(350, 400, 120, 50, constants.PURPLE, "Exit")
+button_font = pygame.font.Font("freesansbold.ttf", 35)
 
 # Hint button.
 hint_button = button.Button(constants.BACKGROUND_START_X, constants.HINT_Y,
-                            120, 50, (0, 0, 255), "Hint")
+                            120, 50, constants.PURPLE, "Hint")
 
 while running:
     screen.fill((0, 0, 0))
@@ -188,6 +188,7 @@ while running:
             mouse_position = pygame.mouse.get_pos()
             if hint_button.mouse_is_on_button(mouse_position):
                 sudoku.generate_hint(level)
+                has_won = sudoku.check_winning()
             else:
                 (selected_row, selected_column) = get_square(mouse_position)
                 if 0 <= selected_row < constants.ROWS_CNT and 0 <= selected_column < constants.COLUMNS_CNT:

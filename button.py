@@ -1,4 +1,7 @@
 import pygame
+import sys
+
+import constants
 
 
 class Button:
@@ -12,11 +15,22 @@ class Button:
 
     def draw(self, screen, font):
         pygame.draw.rect(screen, self.color, [self.x, self.y, self.width, self.height])
-        message = font.render(self.text, True, (255, 255, 255))
-        #message_rect = message.get_rect()
-        #message_rect.center(self.x + self.width / 2, self.y + self.height / 2)
-        #screen.blit(message, message_rect)
-        screen.blit(message, (self.x + self.width / 8, self.y + self.height / 4))
+        message = font.render(self.text, True, constants.WHITE)
+
+        # Centering text inside button.
+        offset_x = (self.width - message.get_width()) / 2
+        offset_y = (self.height - message.get_height()) / 2
+
+        # Button borders.
+        pygame.draw.line(screen, constants.WHITE, (self.x, self.y),
+                         (self.x + self.width, self.y), 3)
+        pygame.draw.line(screen, constants.WHITE, (self.x, self.y),
+                         (self.x, self.y + self.height), 3)
+        pygame.draw.line(screen, constants.WHITE, (self.x + self.width, self.y),
+                         (self.x + self.width, self.y + self.height), 3)
+        pygame.draw.line(screen, constants.WHITE, (self.x, self.y + self.height),
+                         (self.x + self.width, self.y + self.height), 3)
+        screen.blit(message, (self.x + offset_x, self.y + offset_y + 2))
 
     def mouse_is_on_button(self, mouse_position):
         if (self.x <= mouse_position[0] <= self.x + self.width

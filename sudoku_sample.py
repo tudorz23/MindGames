@@ -41,14 +41,14 @@ class SudokuSample:
 
     def get_color(self, row, column):
         if self.is_hint[row][column]:
-            return 0, 200, 125
+            return constants.GREEN
         if self.unmodifiable[row][column]:
-            return 0, 0, 0
+            return constants.BLACK
 
         if self.check_user_input_validity(row, column):
-            return 0, 0, 255
+            return constants.BLUE
 
-        return 255, 0, 0
+        return constants.RED
 
     # Checks if the digit introduced by the user collides with an existing
     # digit from the sudoku.
