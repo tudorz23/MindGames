@@ -39,7 +39,10 @@ class SudokuSample:
     def is_square_modifiable(self, row, column):
         return not self.unmodifiable[row][column]
 
-    def get_color(self, row, column):
+    # Decides the color that the digit will be printed in.
+    # Black for input digits, Green for hints, Blue for valid
+    # user input digits and Red for invalid user input digits.
+    def get_digit_color(self, row, column):
         if self.is_hint[row][column]:
             return constants.GREEN
         if self.unmodifiable[row][column]:
