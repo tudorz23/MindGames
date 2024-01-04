@@ -23,13 +23,12 @@ class GameRunner:
         self.digitX = constants.BACKGROUND_START_X + constants.DIGIT_OFFSET
         self.digitY = constants.BACKGROUND_START_Y + constants.DIGIT_OFFSET
         self.digit_font = pygame.font.Font("freesansbold.ttf", 30)
-        self.hint_font = pygame.font.Font("freesansbold.ttf", 40)
+        self.hint_level_font = pygame.font.Font("freesansbold.ttf", 40)
 
         # For buttons.
-        self.hint_button = button.Button(constants.BACKGROUND_START_X, constants.HINT_Y,
+        self.hint_button = button.Button(constants.HINT_BUTTON_X, constants.HINT_BUTTON_Y,
                             120, 50, constants.PURPLE, "Hint")
         self.button_font = pygame.font.Font("freesansbold.ttf", 35)
-
 
     # Return 0 to continue playing the game, 1 to exit.
     def run(self):
@@ -101,11 +100,11 @@ class GameRunner:
             if self.sudoku.is_square_modifiable(self.selected_row, self.selected_column) and self.is_square_selected:
                 self.draw_selection(self.selected_row, self.selected_column)
 
+            self.display_level_number(self.level.value)
             self.display_hint_number(self.level.hint_cnt)
             pygame.display.update()
 
         return 0
-
 
     # Displays the content of the currently loaded sudoku riddle.
     def display_sudoku(self):
@@ -124,13 +123,17 @@ class GameRunner:
             self.digitX = constants.BACKGROUND_START_X + constants.DIGIT_OFFSET
             self.digitY += constants.SQUARE_LEN
 
-
     # Displays the number of hints left.
     def display_hint_number(self, value):
-        hint_message = self.hint_font.render("Hints left: " + str(value), True, constants.PURPLE)
-        pygame.draw.rect(self.screen, constants.BLACK, [constants.HINT_X, constants.HINT_Y, 100, 50])
-        self.screen.blit(hint_message, (constants.HINT_X, constants.HINT_Y))
+        hint_message = self.hint_level_font.render("Hints left: " + str(value), True, constants.PURPLE)
+        pygame.draw.rect(self.screen, constants.BLACK, [constants.HINT_NR_X, constants.HINT_NR_Y, 100, 50])
+        self.screen.blit(hint_message, (constants.HINT_NR_X, constants.HINT_NR_Y))
 
+    # Displays the current level.
+    def display_level_number(self, value):
+        level_message = self.hint_level_font.render("Level " + str(value) + "/3", True, constants.PURPLE)
+        pygame.draw.rect(self.screen, constants.BLACK, [constants.LEVEL_NR_X, constants.LEVEL_NR_Y, 100, 50])
+        self.screen.blit(level_message, (constants.LEVEL_NR_X, constants.LEVEL_NR_Y))
 
     # Returns the grid coordinates of the square clicked by the mouse.
     def get_square(self, mouse_position):
@@ -145,7 +148,6 @@ class GameRunner:
         y = int((mouse_position[0] - constants.BACKGROUND_START_X) / constants.SQUARE_LEN)
 
         return x, y
-
 
     # Returns the value of the pressed key, if it is a number key.
     # Returns 0, if it is a deletion key.
@@ -177,7 +179,6 @@ class GameRunner:
 
         return -1
 
-
     # Draw selection borders.
     def draw_selection(self, row, column):
         x = constants.BACKGROUND_START_X + column * constants.SQUARE_LEN
@@ -190,7 +191,6 @@ class GameRunner:
                          (x + constants.SQUARE_LEN - 2, y + constants.SQUARE_LEN - 2), 2)
         pygame.draw.line(self.screen, constants.PURPLE, (x + 1, y + constants.SQUARE_LEN - 2),
                          (x + constants.SQUARE_LEN - 2, y + constants.SQUARE_LEN - 2), 2)
-
 
     # Simulates the menu displayed after finishing a level.
     def finish_level(self):

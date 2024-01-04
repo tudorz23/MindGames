@@ -11,6 +11,9 @@ class SudokuSample:
         self.unmodifiable = numpy.zeros((9, 9), bool)
         self.is_hint = numpy.zeros((9, 9), bool)
 
+    # Loads a sudoku riddle and its solution in memory from the database,
+    # depending on the level. The sample is chosen randomly from those
+    # corresponding to the current level.
     def load_sudoku(self, level_nr):
         level_list = database.input_data[level_nr]
         index = random.randint(0, len(level_list) - 1)
@@ -30,12 +33,8 @@ class SudokuSample:
             for j in range(0, constants.COLUMNS_CNT):
                 self.solution[i][j] = solution_source[i][j]
 
-    def print_sudoku(self):
-        for i in range(0, constants.ROWS_CNT):
-            for j in range(0, constants.COLUMNS_CNT):
-                print(self.riddle[i][j])
-            print()
-
+    # Returns true if the user can modify the value displayed in the square,
+    # false otherwise.
     def is_square_modifiable(self, row, column):
         return not self.unmodifiable[row][column]
 
@@ -85,6 +84,7 @@ class SudokuSample:
 
         return True
 
+    # Checks if the grid is in a winning state.
     def check_winning(self):
         for i in range(0, constants.ROWS_CNT):
             for j in range(0, constants.COLUMNS_CNT):
@@ -97,6 +97,8 @@ class SudokuSample:
                     return False
         return True
 
+    # Randomly selects a free position in the grid and adds
+    # the correct digit from the official solution.
     def generate_hint(self, level):
         if level.hint_cnt == 0:
             return
@@ -117,6 +119,7 @@ class SudokuSample:
 
         level.hint_cnt -= 1
 
+    # Returns the coordinates of the first free square to the right.
     def select_next_free_square(self, selected_row, selected_column, is_selected):
         x = 0
         y = -1
@@ -141,6 +144,7 @@ class SudokuSample:
                 if x == constants.ROWS_CNT:
                     x = 0
 
+    # Returns the coordinates of the first free square to the left.
     def select_prev_free_square(self, selected_row, selected_column, is_selected):
         x = constants.ROWS_CNT - 1
         y = constants.COLUMNS_CNT
