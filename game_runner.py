@@ -1,5 +1,4 @@
 import pygame
-
 import between_levels_menu
 import button
 import level
@@ -40,6 +39,11 @@ class GameRunner:
 
         while self.running:
             if self.level_passed:
+                # Check if all levels have been passed. If so, return success.
+                if self.level.change_to_next_level() == 1:
+                    self.running = False
+                    return 0
+
                 if self.finish_level() == 1:
                     self.running = False
                     return 1
@@ -196,7 +200,6 @@ class GameRunner:
             return 1
 
         self.level_passed = False
-        self.level.change_to_next_level()
 
         self.sudoku = sudoku_sample.SudokuSample()
         self.sudoku.load_sudoku(self.level.value)

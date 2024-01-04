@@ -1,5 +1,6 @@
 import pygame
 
+import end_game_menu
 import game_runner
 import initial_menu
 import constants
@@ -20,14 +21,18 @@ class GameSession:
 
     # Runs the game.
     def run(self):
-        start_menu = initial_menu.InitialMenu(self.screen)
+        while self.running:
+            start_menu = initial_menu.InitialMenu(self.screen)
+            if start_menu.run() == 1:
+                self.running = False
+                return
 
-        if start_menu.run() == 1:
-            return
+            main_game = game_runner.GameRunner(self.screen)
+            if main_game.run() == 1:
+                self.running = False
+                return
 
-        main_game = game_runner.GameRunner(self.screen)
-
-        if main_game.run() == 1:
-            return
-
-
+            end_menu = end_game_menu.EndGameMenu(self.screen)
+            if end_menu.run() == 1:
+                self.running = False
+                return

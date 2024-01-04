@@ -1,5 +1,4 @@
 import pygame
-
 import button
 import constants
 
@@ -44,5 +43,3 @@ class InitialMenu:
                     if self.play_button.mouse_is_on_button(mouse_position):
                         self.running = False
                         return 0
-
-
