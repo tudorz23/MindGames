@@ -27,7 +27,7 @@ class GameRunner:
 
         # For buttons.
         self.hint_button = button.Button(constants.HINT_BUTTON_X, constants.HINT_BUTTON_Y,
-                            120, 50, constants.PURPLE, "Hint")
+                                         120, 50, constants.PURPLE, "Hint")
         self.button_font = pygame.font.Font("freesansbold.ttf", 35)
 
     # Return 0 to continue playing the game, 1 to exit.
