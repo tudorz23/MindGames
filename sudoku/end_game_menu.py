@@ -8,21 +8,25 @@ class EndGameMenu:
         self.screen = screen
         self.running = True
 
-        self.play_again_button = button.Button(290, 300, 240, 50, constants.PURPLE, "Play Again")
-        self.exit_button = button.Button(350, 400, 120, 50, constants.PURPLE, "Exit")
+        self.play_again_button = button.Button(280, 300, 240, 50, constants.PURPLE, "Play Again")
+        self.exit_button = button.Button(340, 400, 120, 50, constants.PURPLE, "Exit")
         self.button_font = pygame.font.Font("freesansbold.ttf", 35)
 
     # Return 0 to play again, 1 to exit.
     def run(self):
         background = pygame.image.load('menu_image.jpg')
 
-        message_font = pygame.font.Font("freesansbold.ttf", 25)
-        message = message_font.render("Thank you for playing! You are a sudoku master!",
-                                      True, constants.BLACK)
+        message_font = pygame.font.Font("freesansbold.ttf", 35)
+        message1 = message_font.render("Thank you for playing!",
+                                      True, constants.DEEP_PURPLE)
+        message2 = message_font.render("You are a sudoku master!", True, constants.DEEP_PURPLE)
 
         while self.running:
             self.screen.blit(background, (0, 0))
-            self.screen.blit(message, (constants.ENDGAME_MESSAGE_X, constants.ENDGAME_MESSAGE_Y))
+            x1 = (constants.TOTAL_WIDTH - message1.get_width()) / 2
+            x2 = (constants.TOTAL_WIDTH - message2.get_width()) / 2
+            self.screen.blit(message1, (x1, constants.FINISH_LEVEL_MESSAGE_Y))
+            self.screen.blit(message2, (x2, constants.FINISH_LEVEL_MESSAGE_Y + message1.get_height() + 2))
 
             self.play_again_button.draw(self.screen, self.button_font)
             self.exit_button.draw(self.screen, self.button_font)
