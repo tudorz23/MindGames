@@ -19,8 +19,9 @@ class InitialMenu:
 
         welcome_message_font = pygame.font.Font("freesansbold.ttf", 35)
         welcome_message1 = welcome_message_font.render("Welcome to Sudoku!",
-                                                      True, constants.DEEP_PURPLE)
-        welcome_message2 = welcome_message_font.render("Click on <Play> to start the game.", True, constants.DEEP_PURPLE)
+                                                       True, constants.DEEP_PURPLE)
+        welcome_message2 = welcome_message_font.render("Click on <Play> to start the game.",
+                                                       True, constants.DEEP_PURPLE)
 
         while self.running:
             self.screen.blit(background, (0, 0))

@@ -17,8 +17,7 @@ class EndGameMenu:
         background = pygame.image.load('menu_image.jpg')
 
         message_font = pygame.font.Font("freesansbold.ttf", 35)
-        message1 = message_font.render("Thank you for playing!",
-                                      True, constants.DEEP_PURPLE)
+        message1 = message_font.render("Thank you for playing!", True, constants.DEEP_PURPLE)
         message2 = message_font.render("You are a sudoku master!", True, constants.DEEP_PURPLE)
 
         while self.running:
