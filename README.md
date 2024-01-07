@@ -1,5 +1,5 @@
-*Designed by Marina Oprea (323CA), Alexandra Ionita (32_CB), Marius-Tudor Zaharia (323CA),
-Mihnea ___() in January 2024*
+*Designed by Marina Oprea (323CA), Alexandra-Mihaela Ioniță (324CB), Marius-Tudor Zaharia (323CA),
+Mihnea-Ștefan Stamatie (324CB) in January 2024*
 
 # MindGames
 
@@ -25,6 +25,8 @@ capacities.
 * It currently consists of two separate games:
   * ***Sudoku***
   * ***HangMan***
+* It also has a menu, which allows the user to choose which game he wants to
+play.
 
 ---
 
@@ -35,7 +37,12 @@ installed on his machine.
 ---
 
 ## Run procedure
-* *TBC*
+* When running the Launcher file, the user will be presented with a menu,
+where he can choose which game he wants to play.
+* If the user chooses to play Sudoku, he will be presented with a new menu,
+described in the [Sudoku gameplay](#sudoku-gameplay) section.
+* If the user chooses to play HangMan, he will be presented with a new menu,
+described in the [HangMan gameplay](#hangman-gameplay) section.
 
 ---
 
@@ -52,7 +59,12 @@ invalid and colored in red, else it will appear blue.
 * For grid navigation, `TAB` and `Left and Right Arrows` can be used.
 
 ### HangMan gameplay
-* *TBC*
+* The game's goal is to guess the word by guessing the letters that compose it.
+* The player has 7 lives, and loses one every time he guesses a wrong letter.
+* The player wins if he guesses all the letters before losing all his lives.
+* The lives are represented by the components of a hangman, which are drawn one
+by one as the player guesses the letters wrong.
+* After the player wins or loses, he can choose to play again or to exit the game.
 
 ---
 
@@ -70,7 +82,17 @@ returns 1 in case the user wants to exit the game, or 0 if the game should
 go on.
 
 ### HangMan creation
-* *TBC*
+* This game was developed by Alexandra Ioniță and Mihnea Stamatie, together.
+* We used the `Code with me` feature of PyCharm to simultaneously edit the
+project, while on a call on Discord :).
+* It is written fully in Python, using the `pygame` library.
+* The hangman package has been used, which contains 3 helper packages:
+  * 'assets' - contains the images, colors and fonts used in the game
+  * 'services' - contains the logic of giving words to the player and
+  drawing the hangman
+  * 'utils' - contains the button, global constants, game status
+* In the hangman package there are the files that start the game 'main.py' and
+the file that contains the game logic 'game_session.py'.
 
 ---
 
