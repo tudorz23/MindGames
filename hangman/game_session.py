@@ -11,14 +11,14 @@ import pygame
 from hangman.utils.global_constants import SCREEN_SIZE
 
 GAME_TITLE = "Hangman"
-screen: Surface
+# screen: Surface
 
 
 def initialize_game_session():
-    pygame.init()
+    # pygame.init()
 
-    global screen
-    screen = pygame.display.set_mode(SCREEN_SIZE)
+    # global screen
+    # screen = pygame.display.set_mode(SCREEN_SIZE)
     pygame.display.set_caption(GAME_TITLE)
     word_service.choose_word()
 
@@ -32,7 +32,7 @@ def _handle_click_event(position, try_again_hit_box: Rect):
         StateStore().reset_state()
 
 
-def run_game_session():
+def run_game_session(screen):
     run = True
 
     while run:
@@ -43,4 +43,4 @@ def run_game_session():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 _handle_click_event(pygame.mouse.get_pos(), try_again_hit_box)
 
-    pygame.quit()
+    # pygame.quit()
