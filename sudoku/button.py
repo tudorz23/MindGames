@@ -1,5 +1,5 @@
 import pygame
-import constants
+from sudoku import constants
 
 
 class Button:

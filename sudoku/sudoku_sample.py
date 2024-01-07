@@ -1,5 +1,5 @@
-import constants
-import database
+from sudoku import constants
+from sudoku import database
 import numpy
 import random
 

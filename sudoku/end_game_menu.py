@@ -1,6 +1,8 @@
+import os
+
 import pygame
-import button
-import constants
+from sudoku import button
+from sudoku import constants
 
 
 class EndGameMenu:
@@ -14,7 +16,9 @@ class EndGameMenu:
 
     # Return 0 to play again, 1 to exit.
     def run(self):
-        background = pygame.image.load('menu_image.jpg')
+       # background = pygame.image.load('menu_image.jpg')
+        background_path = os.path.join(os.path.dirname(__file__), 'menu_image.jpg')
+        background = pygame.image.load(background_path)
 
         message_font = pygame.font.Font("freesansbold.ttf", 35)
         message1 = message_font.render("Thank you for playing!", True, constants.DEEP_PURPLE)

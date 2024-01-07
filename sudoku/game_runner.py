@@ -1,9 +1,11 @@
+import os
+
 import pygame
-import between_levels_menu
-import button
-import level
-import sudoku_sample
-import constants
+from sudoku import between_levels_menu
+from sudoku import button
+from sudoku import level
+from sudoku import sudoku_sample
+from sudoku import constants
 
 
 class GameRunner:
@@ -32,7 +34,9 @@ class GameRunner:
 
     # Return 0 to continue playing the game, 1 to exit.
     def run(self):
-        background = pygame.image.load('grid.jpg')
+        background_path = os.path.join(os.path.dirname(__file__), 'grid.jpg')
+        background = pygame.image.load(background_path)
+       # background = pygame.image.load('grid.jpg')
 
         self.sudoku.load_sudoku(self.level.value)
 

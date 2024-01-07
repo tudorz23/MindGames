@@ -1,9 +1,12 @@
+import os
+
 import pygame
 
-import end_game_menu
-import game_runner
-import initial_menu
-import constants
+from sudoku import end_game_menu
+from sudoku import game_runner
+from sudoku import initial_menu
+from sudoku import constants
+# from GameLauncher.Launcher import GameLauncher as run_main
 
 
 class GameSession:
@@ -16,7 +19,9 @@ class GameSession:
 
         # Title and icon
         pygame.display.set_caption("Sudoku")
-        icon = pygame.image.load('sudoku_icon.png')
+        icon_path = os.path.join(os.path.dirname(__file__), 'sudoku_icon.png')
+        icon = pygame.image.load(icon_path)
+        # icon = pygame.image.load('sudoku_icon.png')
         pygame.display.set_icon(icon)
 
     # Runs the game.
@@ -29,6 +34,13 @@ class GameSession:
                 self.running = False
                 return 1
             elif start_choice == 2:
+                # # Close the Pygame display
+                # pygame.display.quit()
+                # # Initialize Pygame before running Sudoku game
+                # pygame.init()
+                # run_main()
+                # # Clean up Pygame after running Sudoku game
+                # pygame.quit()
                 self.running = False
                 return 0
 

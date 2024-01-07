@@ -1,6 +1,8 @@
+import os
+
 import pygame
-import button
-import constants
+from sudoku import button
+from sudoku import constants
 
 
 class InitialMenu:
@@ -15,7 +17,9 @@ class InitialMenu:
 
     # Return 0 to start playing the game, 1 to exit, 2 to return to main menu.
     def run(self):
-        background = pygame.image.load('menu_image.jpg')
+        background_path = os.path.join(os.path.dirname(__file__), 'menu_image.jpg')
+        background = pygame.image.load(background_path)
+        #background = pygame.image.load('menu_image.jpg')
 
         welcome_message_font = pygame.font.Font("freesansbold.ttf", 35)
         welcome_message1 = welcome_message_font.render("Welcome to Sudoku!",

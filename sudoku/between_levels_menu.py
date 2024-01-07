@@ -1,6 +1,8 @@
+import os
+
 import pygame
-import button
-import constants
+from sudoku import button
+from sudoku import constants
 
 
 class BetweenLevelsMenu:
@@ -15,7 +17,9 @@ class BetweenLevelsMenu:
 
     # Return 0 to continue playing the game, 1 to exit.
     def run(self):
-        background = pygame.image.load('menu_image.jpg')
+        background_path = os.path.join(os.path.dirname(__file__), 'menu_image.jpg')
+        background = pygame.image.load(background_path)
+        #background = pygame.image.load('menu_image.jpg')
 
         # Message.
         message_font = pygame.font.Font("freesansbold.ttf", 35)
