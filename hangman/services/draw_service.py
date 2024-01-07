@@ -1,7 +1,7 @@
 import string
 
 import pygame.display
-import hangman.assets.fonts as fonts
+from hangman.assets import fonts as fonts
 import hangman.assets.images as images
 import hangman.services.word_service as word_service
 

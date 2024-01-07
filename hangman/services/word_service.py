@@ -1,10 +1,11 @@
 import random
 from hangman.utils.state_management import StateStore
-
+import os
 
 def choose_word():
     words = []
-    with open('assets/most_common_english_words.txt', 'r') as file:
+    file_path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'most_common_english_words.txt')
+    with open(file_path, 'r') as file:
         for line in file:
             words.append(line)
     rand_index = random.randrange(len(words))
