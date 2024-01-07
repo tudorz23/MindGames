@@ -49,6 +49,8 @@ class GameLauncher:
                         hangman_session.initialize_game_session()
                         hangman_session.run_game_session(self.screen)
 
+                        self.load_main_menu()
+
     def load_main_menu(self):
         menu_icon = pygame.image.load('menu_icon.png')
         pygame.display.set_icon(menu_icon)

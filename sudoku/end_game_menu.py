@@ -16,7 +16,6 @@ class EndGameMenu:
 
     # Return 0 to play again, 1 to exit.
     def run(self):
-       # background = pygame.image.load('menu_image.jpg')
         background_path = os.path.join(os.path.dirname(__file__), 'menu_image.jpg')
         background = pygame.image.load(background_path)
 

@@ -35,9 +35,14 @@ class GameSession:
                 return 0
 
             main_game = game_runner.GameRunner(self.screen)
-            if main_game.run() == 1:
+            main_game_rc = main_game.run()
+            if main_game_rc == 1:
                 self.running = False
                 return 1
+            elif main_game_rc == 2:
+                self.running = False
+                return 0
+
 
             end_menu = end_game_menu.EndGameMenu(self.screen)
             if end_menu.run() == 1:

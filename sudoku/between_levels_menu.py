@@ -12,14 +12,14 @@ class BetweenLevelsMenu:
 
         # Buttons
         self.next_level_button = button.Button(340, 300, 120, 50, constants.PURPLE, "Next")
-        self.exit_button = button.Button(340, 400, 120, 50, constants.PURPLE, "Exit")
+        self.main_menu_button = button.Button(275, 400, 250, 50, constants.PURPLE, "Main Menu")
+        self.exit_button = button.Button(340, 500, 120, 50, constants.PURPLE, "Exit")
         self.button_font = pygame.font.Font("freesansbold.ttf", 35)
 
-    # Return 0 to continue playing the game, 1 to exit.
+    # Return 0 to continue playing the game, 1 to exit, 2 to return to main menu.
     def run(self):
         background_path = os.path.join(os.path.dirname(__file__), 'menu_image.jpg')
         background = pygame.image.load(background_path)
-        #background = pygame.image.load('menu_image.jpg')
 
         # Message.
         message_font = pygame.font.Font("freesansbold.ttf", 35)
@@ -37,6 +37,7 @@ class BetweenLevelsMenu:
 
             self.next_level_button.draw(self.screen, self.button_font)
             self.exit_button.draw(self.screen, self.button_font)
+            self.main_menu_button.draw(self.screen, self.button_font)
 
             pygame.display.update()
 
@@ -54,3 +55,7 @@ class BetweenLevelsMenu:
                     if self.exit_button.mouse_is_on_button(mouse_position):
                         self.running = False
                         return 1
+
+                    if self.main_menu_button.mouse_is_on_button(mouse_position):
+                        self.running = False
+                        return 2

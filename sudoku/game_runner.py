@@ -32,11 +32,10 @@ class GameRunner:
                                          120, 50, constants.PURPLE, "Hint")
         self.button_font = pygame.font.Font("freesansbold.ttf", 35)
 
-    # Return 0 to continue playing the game, 1 to exit.
+    # Return 0 to continue playing the game, 1 to exit, 2 to go to main menu.
     def run(self):
         background_path = os.path.join(os.path.dirname(__file__), 'grid.jpg')
         background = pygame.image.load(background_path)
-       # background = pygame.image.load('grid.jpg')
 
         self.sudoku.load_sudoku(self.level.value)
 
@@ -47,9 +46,14 @@ class GameRunner:
                     self.running = False
                     return 0
 
-                if self.finish_level() == 1:
+                finish_level_rc = self.finish_level()
+                if finish_level_rc == 1:
                     self.running = False
                     return 1
+                elif finish_level_rc == 2:
+                    self.running = False
+                    return 2
+
 
             self.screen.fill(constants.BLACK)
             self.screen.blit(background, (constants.BACKGROUND_START_X, constants.BACKGROUND_START_Y))
@@ -197,12 +201,20 @@ class GameRunner:
                          (x + constants.SQUARE_LEN - 2, y + constants.SQUARE_LEN - 2), 2)
 
     # Simulates the menu displayed after finishing a level.
+    # Return 0 if the thing goes on.
+    # Return 1 if the user exits the game.
+    # Return 2 to go back to main menu.
     def finish_level(self):
         level_menu = between_levels_menu.BetweenLevelsMenu(self.screen)
 
-        if level_menu.run() == 1:
-            return 1
+        user_choice = level_menu.run()
 
+        if user_choice == 1:
+            return 1
+        elif user_choice == 2:
+            return 2
+
+        # Load the next Level.
         self.level_passed = False
 
         self.sudoku = sudoku_sample.SudokuSample()
