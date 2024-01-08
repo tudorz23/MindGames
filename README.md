@@ -101,3 +101,4 @@ the file that contains the game logic 'game_session.py'.
 Python, so thorough documentation and tutorial watching was necessary to get
 the thing going, but, overall, it was a fun experience.
 * Link to GitHub repo: https://github.com/tudorz23/MindGames.git
+* 
