@@ -32,7 +32,7 @@ play.
 
 ## Prerequisites
 * To successfully run the games, it is necessary that the user has python3
-installed on his machine.
+installed on his machine, and also pygame and numpy.
 
 ---
 
@@ -100,3 +100,4 @@ the file that contains the game logic 'game_session.py'.
 * The main and obvious difficulty was that we had no previous experience with
 Python, so thorough documentation and tutorial watching was necessary to get
 the thing going, but, overall, it was a fun experience.
+* Link to GitHub repo: https://github.com/tudorz23/MindGames.git
