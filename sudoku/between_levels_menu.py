@@ -1,6 +1,7 @@
 import os
 
 import pygame
+
 from sudoku import button
 from sudoku import constants
 
@@ -24,7 +25,7 @@ class BetweenLevelsMenu:
         # Message.
         message_font = pygame.font.Font("freesansbold.ttf", 35)
         message1 = message_font.render("Congratulations!",
-                                      True, constants.DEEP_PURPLE)
+                                       True, constants.DEEP_PURPLE)
         message2 = message_font.render("You can now access the next level:", True, constants.DEEP_PURPLE)
 
         while self.running:

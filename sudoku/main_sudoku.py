@@ -1,6 +1,5 @@
-import pygame
-
 from sudoku import game_session
+
 
 def main():
     game = game_session.GameSession()

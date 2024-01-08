@@ -1,7 +1,7 @@
 import pygame
+
 import hangman.assets.fonts as fonts
 import hangman.services.word_service as word_service
-
 from hangman.assets.colors import BLACK, RED, GREEN
 from hangman.utils.state_management import StateStore
 

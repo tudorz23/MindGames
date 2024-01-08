@@ -1,6 +1,7 @@
 import os
 
 import pygame
+
 from sudoku import button
 from sudoku import constants
 

@@ -1,7 +1,9 @@
 import os
+
 import pygame
-from sudoku import game_session as sudoku_session
+
 from hangman import game_session as hangman_session
+from sudoku import game_session as sudoku_session
 
 
 class GameLauncher:
@@ -51,8 +53,9 @@ class GameLauncher:
 
                         self.load_main_menu()
 
-    def load_main_menu(self):
-        menu_icon = pygame.image.load('menu_icon.png')
+    @staticmethod
+    def load_main_menu():
+        menu_icon = pygame.image.load(os.path.join(os.path.dirname(__file__), 'menu_icon.png'))
         pygame.display.set_icon(menu_icon)
 
         pygame.display.set_caption("Game Launcher")
@@ -73,8 +76,3 @@ class GameLauncher:
         background2_scaled = pygame.transform.scale(self.background2,
                                                     (self.button2_rect.width, self.button2_rect.height))
         self.screen.blit(background2_scaled, (self.button2_rect.x, self.button2_rect.y))
-
-
-if __name__ == "__main__":
-    launcher = GameLauncher()
-    launcher.run()

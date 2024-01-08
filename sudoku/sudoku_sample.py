@@ -1,7 +1,9 @@
+import random
+
+import numpy
+
 from sudoku import constants
 from sudoku import database
-import numpy
-import random
 
 
 class SudokuSample:

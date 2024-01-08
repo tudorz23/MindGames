@@ -1,6 +1,8 @@
-import random
-from hangman.utils.state_management import StateStore
 import os
+import random
+
+from hangman.utils.state_management import StateStore
+
 
 def choose_word():
     words = []

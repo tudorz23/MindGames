@@ -1,16 +1,16 @@
 import string
 
-from pygame import Surface, Rect
-from hangman.utils.button_factory import ButtonFactory
-from hangman.utils.state_management import StateStore
+import pygame
+from pygame import Rect
 
 from hangman.services import draw_service as draw_service
 from hangman.services import word_service as word_service
-import pygame
-
-from hangman.utils.global_constants import SCREEN_SIZE
+from hangman.utils.button_factory import ButtonFactory
+from hangman.utils.state_management import StateStore
 
 GAME_TITLE = "Hangman"
+
+
 # screen: Surface
 
 

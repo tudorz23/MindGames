@@ -80,7 +80,6 @@ input_data.append(input1)
 input_data.append(input2)
 input_data.append(input3)
 
-
 solution0 = []
 solution0.append(numpy.array([[4, 3, 5, 2, 6, 9, 7, 8, 1],
                               [6, 8, 2, 5, 7, 1, 4, 9, 3],

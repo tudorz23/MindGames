@@ -1,7 +1,7 @@
 import string
 
-from hangman.utils.singleton_meta import SingletonMeta
 import hangman.services.word_service as word_service
+from hangman.utils.singleton_meta import SingletonMeta
 
 
 class StateStore(metaclass=SingletonMeta):
@@ -13,7 +13,7 @@ class StateStore(metaclass=SingletonMeta):
         self._game_status = 0
         for letter in string.ascii_uppercase:
             self._alphabet_status[letter] = 0
-            
+
     def reset_state(self):
         self._hangman_status: int = 0
         self._clear_word = ""

@@ -1,11 +1,12 @@
 import os
 
 import pygame
+
 from sudoku import between_levels_menu
 from sudoku import button
+from sudoku import constants
 from sudoku import level
 from sudoku import sudoku_sample
-from sudoku import constants
 
 
 class GameRunner:
@@ -54,7 +55,6 @@ class GameRunner:
                     self.running = False
                     return 2
 
-
             self.screen.fill(constants.BLACK)
             self.screen.blit(background, (constants.BACKGROUND_START_X, constants.BACKGROUND_START_Y))
 
@@ -90,20 +90,22 @@ class GameRunner:
                 # Navigate with TAB.
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
                     (self.selected_row, self.selected_column) = self.sudoku.select_next_free_square(self.selected_row,
-                                                                self.selected_column, self.is_square_selected)
+                                                                                                    self.selected_column,
+                                                                                                    self.is_square_selected)
                     self.is_square_selected = True
 
                 # Navigate with left and right arrows.
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
                     (self.selected_row, self.selected_column) = self.sudoku.select_next_free_square(self.selected_row,
-                                                                self.selected_column, self.is_square_selected)
+                                                                                                    self.selected_column,
+                                                                                                    self.is_square_selected)
                     self.is_square_selected = True
 
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
                     (self.selected_row, self.selected_column) = self.sudoku.select_prev_free_square(self.selected_row,
-                                                                self.selected_column, self.is_square_selected)
+                                                                                                    self.selected_column,
+                                                                                                    self.is_square_selected)
                     self.is_square_selected = True
-
 
             if self.sudoku.is_square_modifiable(self.selected_row, self.selected_column) and self.is_square_selected:
                 self.draw_selection(self.selected_row, self.selected_column)

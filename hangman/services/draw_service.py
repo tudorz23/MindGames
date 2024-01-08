@@ -1,17 +1,17 @@
 import string
 
 import pygame.display
-from hangman.assets import fonts as fonts
+from pygame import Surface
+
 import hangman.assets.images as images
 import hangman.services.word_service as word_service
-
-from pygame import Surface
+from hangman.assets import fonts as fonts
 from hangman.assets.colors import BLACK, WHITE, GREEN, RED
 from hangman.assets.fonts import TITLE_FONT, WORD_FONT
-from hangman.utils.global_constants import WIDTH
-from hangman.utils.state_management import StateStore
 from hangman.utils.button_factory import ButtonFactory
 from hangman.utils.button_model import ButtonModel
+from hangman.utils.global_constants import WIDTH
+from hangman.utils.state_management import StateStore
 
 TITLE = "Hangman"
 TRY_AGAIN_WIDTH = 400
@@ -22,17 +22,17 @@ TRY_AGAIN_LEFT = round((WIDTH - TRY_AGAIN_WIDTH) / 2)
 
 def draw_title(screen: Surface):
     title = fonts.get_font(TITLE_FONT).render(TITLE, True, BLACK)
-    screen.blit(title, (WIDTH/2 - title.get_width()/2, 40))
+    screen.blit(title, (WIDTH / 2 - title.get_width() / 2, 40))
 
 
 def draw_image(screen: Surface):
     image = images.get_hangman_image(StateStore().hangman_status)
-    screen.blit(image, (WIDTH/2 - image.get_width()/2, 180))
+    screen.blit(image, (WIDTH / 2 - image.get_width() / 2, 180))
 
 
 def draw_word(screen: Surface):
     word = fonts.get_font(WORD_FONT).render(word_service.prepare_word_for_display(), True, BLACK)
-    screen.blit(word, (WIDTH/2 - word.get_width()/2, 460))
+    screen.blit(word, (WIDTH / 2 - word.get_width() / 2, 460))
 
 
 def draw_buttons(screen: Surface):
@@ -57,7 +57,7 @@ def draw_message(screen: Surface):
             color = GREEN
     if message_text is not None:
         message = fonts.get_font(WORD_FONT).render(message_text, True, color)
-        screen.blit(message, (WIDTH/2 - message.get_width()/2, 680))
+        screen.blit(message, (WIDTH / 2 - message.get_width() / 2, 680))
 
 
 def draw_try_again_button(screen: Surface):
@@ -66,8 +66,8 @@ def draw_try_again_button(screen: Surface):
         pygame.draw.rect(screen, BLACK, hit_box,
                          3, 10)
         try_again_text = fonts.get_font(fonts.TRY_AGAIN_FONT).render("Press here to try again!", True, BLACK)
-        screen.blit(try_again_text, (TRY_AGAIN_LEFT + (TRY_AGAIN_WIDTH - try_again_text.get_width())/2,
-                                     TRY_AGAIN_TOP + (TRY_AGAIN_HEIGHT - try_again_text.get_height())/2))
+        screen.blit(try_again_text, (TRY_AGAIN_LEFT + (TRY_AGAIN_WIDTH - try_again_text.get_width()) / 2,
+                                     TRY_AGAIN_TOP + (TRY_AGAIN_HEIGHT - try_again_text.get_height()) / 2))
         return hit_box
 
 

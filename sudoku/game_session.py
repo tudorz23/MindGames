@@ -43,7 +43,6 @@ class GameSession:
                 self.running = False
                 return 0
 
-
             end_menu = end_game_menu.EndGameMenu(self.screen)
             if end_menu.run() == 1:
                 self.running = False
